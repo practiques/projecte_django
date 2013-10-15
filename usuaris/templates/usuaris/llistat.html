@@ -1,0 +1,9 @@
+{% if ultims_usuaris %}
+    <ul>
+    {% for usuari in ultims_usuaris %}
+        <li><a href="{% url 'usuaris:detall_usuari' usuari.id %}">{{ usuari.cognoms }}, {{ usuari.nom }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No existeixen usuaris.</p>
+{% endif %}

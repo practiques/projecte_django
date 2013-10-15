@@ -1,0 +1,13 @@
+
+<h1> Accés a la info. dels treballadors de l'empresa </h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'usuaris:accedir' %}" method="post">
+{% csrf_token %}
+	<label for="usu_acces"/>Usuari</label>
+    <input type="text" name="usu_acces" id="usu_acces" />
+    <label for="pass_acces"/>Contrasenya</label>
+    <input type="password" name="pass_acces" id="pass_acces" />
+<input type="submit" value="Accedir" />
+</form>

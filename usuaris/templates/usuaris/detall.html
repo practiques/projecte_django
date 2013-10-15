@@ -1,0 +1,11 @@
+{% if usuari %}
+    <ul>
+        <li><strong>Nom:</strong> {{ usuari.nom }} </a></li>
+        <li><strong>Cognoms:</strong> {{ usuari.cognoms }} </a></li>
+        <li><strong>Càrrec:</strong> {{ usuari.carrec }} </a></li>
+        <li><strong>Correu:</strong> {{ usuari.correu }} </a></li>
+        <li><strong>Data d'alta:</strong> {{ usuari.data_alta }} </a></li>
+    </ul>
+{% else %}
+    <p>No es disposa d'informació per a aquest usuari.</p>
+{% endif %}
