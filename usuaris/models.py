@@ -2,7 +2,7 @@
 from django.db import models
 import math
 import random
-import bcrypt
+#import bcrypt
 import hashlib
 
 class Carrec(models.Model):
@@ -16,6 +16,7 @@ class Pais(models.Model):		#Ho implemento com a nova classe per si vul afegir al
 	def __str__(self):
 		return self.nom
 
+""
 class Comunitat(models.Model):
 	nom=models.CharField(max_length=50)
 	pais=models.ForeignKey(Pais)
@@ -28,7 +29,7 @@ class Ciutat(models.Model):
 	def __str__(self):
 		return self.nom
 
-
+"""
 class Contrasenya(models.Model):
 
 	alfabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -42,7 +43,7 @@ class Contrasenya(models.Model):
 	def generar_hash(cls,contra,contra_salt):
 		contra_hash=hashlib.sha512(repr(contra)+','+repr(contra_salt)).hexdigest();
 		return contra_hash
-
+"""
 
 class Usuari(models.Model):
 

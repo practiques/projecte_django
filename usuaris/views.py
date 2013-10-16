@@ -24,14 +24,21 @@ def loging(request):
 	return render(request,'usuaris/loging.html')
 
 def accedir(request):
-	usu_acces=request.POST['usu_acces']
+	email_acces=request.POST['usu_acces']
+	contra_access=request.POST['contra_acces']
 	try:
-		
-		usuari=
-	
-		
-	ultims_usuaris=Usuari.objects.order_by('-data_alta')[:5]
-	return render_to_response('usuaris/llistat.html',{
+		usuari=Usuari.objects.get(correu=email_acces)
+	except (KeyError,Usuari.DoesNotExist):
+		error_message="No existeix l'usuari"
+		ultims_usuaris=Usuari.objects.order_by('-data_alta')[:5]
+		return render_to_response('usuaris/loging.html',{
 				'ultims_usuaris': ultims_usuaris,
 				'error_message': error_message
 			})
+	"""
+	try:
+	except:
+		return HttpResponse("Hello, world. You're at the polls index.")
+	"""
+		
+	
