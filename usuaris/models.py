@@ -2,6 +2,8 @@
 from django.db import models
 import math
 import random
+import bcrypt
+import hashlib
 
 class Carrec(models.Model):
 	nom=models.CharField(max_length=30)
@@ -26,15 +28,40 @@ class Ciutat(models.Model):
 	def __str__(self):
 		return self.nom
 
+
+class Contrasenya(models.Model):
+
+	alfabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	
+	@classmethod
+	def generar_salt(cls):
+		salt=''.join(random.choice(cls.alfabet) for i in range(16)) 
+		return salt
+
+	@classmethod
+	def generar_hash(cls,contra,contra_salt):
+		contra_hash=hashlib.sha512(repr(contra)+','+repr(contra_salt)).hexdigest();
+		return contra_hash
+
+
 class Usuari(models.Model):
+
 	nom=models.CharField(max_length=30)
 	cognoms=models.CharField(max_length=60)
 	data_alta=models.DateTimeField()
 	correu=models.EmailField()
 	# L'edat adquireix valor aleatori amb la migració (entre 0 i 999)
 	edat=models.IntegerField(default=random.randrange(0,999))
-	ciutat=models.ForeignKey(Ciutat,null=True)	#Pot ser null ja que és l'últim camp que creo i ja existeixen registres anteriors.
+	#contra=models.CharField(max_length=60,default='contrasenya') #Esborrem aquest camp per completar la migració.
+	contra_salt = models.CharField(max_length=8, null=True)
+	contra_hash = models.CharField(max_length=40, null=True)
+	#contra_salt=models.TextField(default=Contrasenya.generar_salt())
+	#contra_hash=models.TextField(default=Contrasenya.generar_hash(contra,contra_salt))
+	ciutat=models.ForeignKey(Ciutat,null=True)	
 	carrec=models.ForeignKey(Carrec)
 	def __str__(self):
 		return self.cognoms+", "+self.nom
+
+
+
 

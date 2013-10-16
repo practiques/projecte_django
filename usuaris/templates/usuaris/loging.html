@@ -3,11 +3,11 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'usuaris:accedir' %}" method="post">
+<form action="/usuaris/accedir/" method="post">
 {% csrf_token %}
 	<label for="usu_acces"/>Usuari</label>
-    <input type="text" name="usu_acces" id="usu_acces" />
+    <input type="text" name="usu_acces" id="usu_acces" /><br>
     <label for="pass_acces"/>Contrasenya</label>
-    <input type="password" name="pass_acces" id="pass_acces" />
-<input type="submit" value="Accedir" />
+    <input type="password" name="pass_acces" id="pass_acces" /></br>
+	<input type="submit" value="Accedir" />
 </form>
