@@ -47,6 +47,8 @@ class Contrasenya(models.Model):
 
 class Usuari(models.Model):
 
+
+
 	nom=models.CharField(max_length=30)
 	cognoms=models.CharField(max_length=60)
 	data_alta=models.DateTimeField()
@@ -55,14 +57,14 @@ class Usuari(models.Model):
 	edat=models.IntegerField(default=random.randrange(0,999))
 	#contra=models.CharField(max_length=60,default='contrasenya') #Esborrem aquest camp per completar la migració.
 	contra_salt = models.CharField(max_length=8, null=True)
-	contra_hash = models.CharField(max_length=40, null=True)
+	contra = models.TextField(null=True)
 	#contra_salt=models.TextField(default=Contrasenya.generar_salt())
 	#contra_hash=models.TextField(default=Contrasenya.generar_hash(contra,contra_salt))
 	ciutat=models.ForeignKey(Ciutat,null=True)	
 	carrec=models.ForeignKey(Carrec)
+	
 	def __str__(self):
 		return self.cognoms+", "+self.nom
-
 
 
 

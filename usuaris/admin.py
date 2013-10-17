@@ -4,7 +4,7 @@ from usuaris.models import *
 
 class UsuariAdmin(admin.ModelAdmin):
 	fieldsets=[
-		("Informació de l'usuari",	{'fields':['nom','cognoms','correu', 'ciutat']}),
+		("Informació de l'usuari",	{'fields':['nom','cognoms','correu', 'ciutat', 'contra']}),
 		("Relació amb l'empresa",	{'fields':['carrec','data_alta']}),
 	]
 

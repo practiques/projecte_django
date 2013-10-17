@@ -25,16 +25,23 @@ def loging(request):
 
 def accedir(request):
 	email_acces=request.POST['usu_acces']
-	contra_access=request.POST['contra_acces']
+	contra_acces=request.POST['contra_acces']
 	try:
 		usuari=Usuari.objects.get(correu=email_acces)
+		#nom=Usuari.get('nom')
+		if contra_acces==usuari.contra:
+			return render_to_response('usuaris/detall.html',{
+				'usuari': usuari,
+				'titol': u"Benvigut " + usuari.nom + u". Aquestes són les teves dades:"
+				})
+		else:
+			error_message="No existeix l'usuari"
+			ultims_usuaris=Usuari.objects.order_by('-data_alta')[:5]
+			return render(request,'usuaris/usu_incorrecte.html')
 	except (KeyError,Usuari.DoesNotExist):
 		error_message="No existeix l'usuari"
 		ultims_usuaris=Usuari.objects.order_by('-data_alta')[:5]
-		return render_to_response('usuaris/loging.html',{
-				'ultims_usuaris': ultims_usuaris,
-				'error_message': error_message
-			})
+		return render(request,'usuaris/usu_incorrecte.html')
 	"""
 	try:
 	except:

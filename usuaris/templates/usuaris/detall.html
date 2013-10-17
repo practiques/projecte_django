@@ -1,3 +1,11 @@
+<h1>{{ titol }}</h1> <!--A aquesta vista es pot accedir perquè l'usuari s'ha validat correctament (i se li mostra la seva informació d'usuari, o bé perquè una vegada dins ha volgut visualitzar la informació d'un usuari en concret. -->
+
+{% if not titol %}
+<h1>Detall d'un usuari</h1><!--Mostrem aquest títol si s'ha volgut visualitzar la informació d'un usuari, és a dir, no estem mostrant la informació de l'usuari que ha fet loging (pantalla inicial quan un usuari s'autentica)-->
+{% endif %}
+
+
+
 {% if usuari %}
     <ul>
         <li><strong>Nom:</strong> {{ usuari.nom }} </a></li>
@@ -5,7 +13,13 @@
         <li><strong>Càrrec:</strong> {{ usuari.carrec }} </a></li>
         <li><strong>Correu:</strong> {{ usuari.correu }} </a></li>
         <li><strong>Data d'alta:</strong> {{ usuari.data_alta }} </a></li>
+        <li><strong>Ciutat:</strong> {{ usuari.ciutat }} </a></li>
+        <li><strong>Comunitat autònoma:</strong> {{ usuari.ciutat.comunitat }} </a></li>
+        <li><strong>Païs:</strong> {{ usuari.ciutat.comunitat.pais }} </a></li>
     </ul>
 {% else %}
     <p>No es disposa d'informació per a aquest usuari.</p>
 {% endif %}
+
+
+<a href='/usuaris/llistat/'>Vés al llistat complet d'usuaris</a>
