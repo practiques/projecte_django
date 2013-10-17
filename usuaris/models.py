@@ -41,7 +41,7 @@ class Contrasenya(models.Model):
 
 	@classmethod
 	def generar_hash(cls,contra,contra_salt):
-		contra_hash=hashlib.sha512(repr(contra)+','+repr(contra_salt)).hexdigest();
+		contra_hash=hashlib.sha512(contra+','+contra_salt).hexdigest();
 		return contra_hash
 
 
@@ -50,11 +50,11 @@ class Usuari(models.Model):
 	nom=models.CharField(max_length=30)
 	cognoms=models.CharField(max_length=60)
 	data_alta=models.DateTimeField()
-	correu=models.EmailField()
+	correu=models.EmailField(unique=True)
 	# L'edat adquireix valor aleatori amb la migració (entre 0 i 999)
 	edat=models.IntegerField(default=random.randrange(0,999))
 	#contra=models.CharField(max_length=60,default='contrasenya') #Esborrem aquest camp per completar la migració.
-	contra_salt = models.CharField(max_length=8, null=True)
+	contra_salt = models.CharField(max_length=20, null=True)
 	contra_hash = models.TextField(null=True)
 	#contra_salt=models.TextField(default=Contrasenya.generar_salt())
 	#contra_hash=models.TextField(default=Contrasenya.generar_hash(contra,contra_salt))

@@ -2,7 +2,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import render_to_response, get_object_or_404
-from usuaris.models import Usuari
+from usuaris.models import Usuari, Contrasenya
 
 
 # def llistat_usuaris(request):
@@ -28,18 +28,17 @@ def accedir(request):
 	contra_acces=request.POST['contra_acces']
 	try:
 		usuari=Usuari.objects.get(correu=email_acces)
-		#nom=Usuari.get('nom')
-		if contra_acces==usuari.contra:
+		contra_salt=usuari.contra_salt
+		contra_hash=usuari.contra_hash
+		if Contrasenya.generar_hash(contra_acces,contra_salt)==contra_hash:
 			return render_to_response('usuaris/detall.html',{
 				'usuari': usuari,
 				'titol': u"Benvigut " + usuari.nom + u". Aquestes són les teves dades:"
 				})
 		else:
-			error_message="No existeix l'usuari"
 			ultims_usuaris=Usuari.objects.order_by('-data_alta')[:5]
 			return render(request,'usuaris/usu_incorrecte.html')
 	except (KeyError,Usuari.DoesNotExist):
-		error_message="No existeix l'usuari"
 		ultims_usuaris=Usuari.objects.order_by('-data_alta')[:5]
 		return render(request,'usuaris/usu_incorrecte.html')
 	"""

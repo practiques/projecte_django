@@ -7,7 +7,11 @@ from django import forms
 
 class UsuariForm(ModelForm):
 	raw_password=forms.CharField(required=False)
-	contra_hash=forms.CharField(required=False,widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}))
+	contra_hash=forms.CharField(
+		required=False,
+		widget=forms.Textarea(attrs={'rows': 5, 'cols': 100, 'readonly':'readonly'})
+		)
+
 
 	class Meta:
 		model=Usuari
@@ -16,7 +20,7 @@ class UsuariForm(ModelForm):
 	def clean(self):
 		#cleaned_data = super(UsuariForm, self).clean()
 		if not self.cleaned_data['contra_hash'] and not self.cleaned_data['raw_password']:# and self.cleaned_data.get('raw_password',None):
-			raise forms.ValidationError("Has d'indicar una contrasenya literal o bé el seu hash.")
+			raise forms.ValidationError("Aquest usuari encara no disposa de contrasenya.")
 		else:
 			return self.cleaned_data
 
@@ -33,7 +37,7 @@ class UsuariForm(ModelForm):
 
 class UsuariAdmin(admin.ModelAdmin):
 	fieldsets=[
-		("Informació de l'usuari",	{'fields':['nom','cognoms','correu', 'edat', 'ciutat', 'contra_hash', 'raw_password', ]}),
+		("Informació de l'usuari",	{'fields':['nom','cognoms','correu', 'edat', 'ciutat', 'contra_hash', 'raw_password']}),
 		("Relació amb l'empresa",	{'fields':['carrec','data_alta']}),
 	]
 	form=UsuariForm
