@@ -1,0 +1,13 @@
+
+<h1>Accés al mòdul d'usuaris</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="/usuaris/accedir/" method="post">
+{% csrf_token %}
+	<label for="usu_acces"/>Email</label>
+    <input type="text" name="usu_acces" id="usu_acces" /><br>
+    <label for="pass_acces"/>Contrasenya</label>
+    <input type="password" name="contra_acces" id="pass_acces" /></br>
+	<input type="submit" value="Accedir" />
+</form>

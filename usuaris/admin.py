@@ -4,6 +4,8 @@ from django.contrib import admin
 from usuaris.models import *
 from django.forms import ModelForm
 from django import forms
+from django.http import Http404
+
 
 class UsuariForm(ModelForm):
 	raw_password=forms.CharField(required=False)
@@ -18,8 +20,13 @@ class UsuariForm(ModelForm):
 		fields=['nom','cognoms','correu','edat','ciutat','carrec','data_alta','raw_password', 'contra_hash']
 
 	def clean(self):
+		correu_form=self.cleaned_data['correu']
+		#try:
+		#usuari=Usuari.objects.get(correu=correu_form) #Comprovem si existeix un usuari amb aquest correu.
+		#raise forms.ValidationError("Ja existeix un usuari amb aquest correu.")
+		#except Usuari.DoesNotExist:
 		#cleaned_data = super(UsuariForm, self).clean()
-		if not self.cleaned_data['contra_hash'] and not self.cleaned_data['raw_password']:# and self.cleaned_data.get('raw_password',None):
+		if not self.cleaned_data['contra_hash'] and not self.cleaned_data['raw_password']:
 			raise forms.ValidationError("Aquest usuari encara no disposa de contrasenya.")
 		else:
 			return self.cleaned_data
@@ -43,14 +50,13 @@ class UsuariAdmin(admin.ModelAdmin):
 	form=UsuariForm
 
 
-
-
 """
 	def save(self, request, obj, form, change):
 		from django.http import HttpResponse
 		return HttpResponse(str(form['contra']))
         #obj.save()
 """
+
 admin.site.register(Usuari,UsuariAdmin)
 admin.site.register(Carrec)
 admin.site.register(Ciutat)

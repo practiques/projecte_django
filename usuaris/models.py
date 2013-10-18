@@ -4,6 +4,8 @@ import math
 import random
 #import bcrypt
 import hashlib
+from django.utils import timezone
+import datetime
 
 class Carrec(models.Model):
 	nom=models.CharField(max_length=30)
@@ -61,6 +63,9 @@ class Usuari(models.Model):
 	ciutat=models.ForeignKey(Ciutat,null=True)	
 	carrec=models.ForeignKey(Carrec)
 	
+	def creat_recentment(self):
+		return timezone.now() > self.data_alta >= timezone.now() - datetime.timedelta(days=1)
+
 	def __str__(self):
 		return self.cognoms+", "+self.nom
 
