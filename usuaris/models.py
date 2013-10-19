@@ -55,16 +55,25 @@ class Usuari(models.Model):
 	correu=models.EmailField(unique=True)
 	# L'edat adquireix valor aleatori amb la migració (entre 0 i 999)
 	edat=models.IntegerField(default=random.randrange(0,999))
-	#contra=models.CharField(max_length=60,default='contrasenya') #Esborrem aquest camp per completar la migració.
-	contra_salt = models.CharField(max_length=20, null=True)
-	contra_hash = models.TextField(null=True)
+	
+	#Afegim els camps "salt" i "hash" tot indicant un valor per defecte per poder fer la migració.
 	#contra_salt=models.TextField(default=Contrasenya.generar_salt())
 	#contra_hash=models.TextField(default=Contrasenya.generar_hash(contra,contra_salt))
+
+	#Una vegada hem migrat, esborrem el la contrasenya "raw" per completar la migració.
+	#contra=models.CharField(max_length=60,default='contrasenya') 
+
+	contra_salt = models.CharField(max_length=20, null=True)
+	contra_hash = models.TextField(null=True)
+	
 	ciutat=models.ForeignKey(Ciutat,null=True)	
 	carrec=models.ForeignKey(Carrec)
 	
 	def creat_recentment(self):
 		return timezone.now() > self.data_alta >= timezone.now() - datetime.timedelta(days=1)
+
+	def any_naixement(self):
+		return timezone.now().year - self.edat
 
 	def __str__(self):
 		return self.cognoms+", "+self.nom
